@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Member {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  url  String
+  role      String
+  deletedAt  DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  events    Event[]  @relation("MemberEvents") // se você quiser vincular eventos futuros
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  url    String
+  price       Float
+  formUrl     String
+  deletedAt  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  members     Member[] @relation("MemberEvents")
+}
+model Dictionary {
+  id         BigInt       @id @default(autoincrement())
+  name       String
+  author     String
+  publisher  String
+  genre      String
+  keywords   String[]  // array de palavras-chave
+  meaning    String
+  url        String
+  deletedAt  DateTime? // nulo até a exclusão lógica
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
