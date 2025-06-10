@@ -66,6 +66,6 @@ npx prisma migrate dev
 ```
 5. Inicie o servidor:
 ```bash
-npx prisma migrate dev
-```
 npm run dev
+```
+
