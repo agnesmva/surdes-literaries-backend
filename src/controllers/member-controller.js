@@ -2,16 +2,30 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 module.exports = {
-  async findAll(req, res) {
-    try {
-      const members = await prisma.member.findMany({
-        where: { deletedAt: null }
-      });
-      res.json(members);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
+async findAll(req, res) {
+  try {
+    // Buscar membros não deletados e ordenar por nome
+    const members = await prisma.member.findMany({
+      where: { deletedAt: null },
+      orderBy: { name: 'asc' },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        url: true,
+        role: true,
+        team: true,
+        deletedAt: true,
+        createdAt: true,
+        updatedAt: true,
+      }
+    });
+    res.json(members)
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+},
 
   async create(req, res) {
     try {
