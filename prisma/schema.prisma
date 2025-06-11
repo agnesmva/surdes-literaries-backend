@@ -13,10 +13,10 @@ model Member {
   email     String    @unique
   url       String
   role      String
+  team      String?
   deletedAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  team      String?
   events    Event[]   @relation("MemberEvents")
 }
 
@@ -35,7 +35,7 @@ model Event {
 
 model Dictionary {
   id        BigInt    @id @default(autoincrement())
-  name      String
+  signal      String
   author    String
   publisher String
   genre     String
